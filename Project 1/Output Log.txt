@@ -1,0 +1,42 @@
+Script started on Sun Jan 29 20:07:54 2023
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                            ]7;file://Joshuas-MacBook-Air.local/Users/joshuadunne/Documents/GitHub/CS-461[0m[27m[24m[Jjoshuadunne@Joshuas-MacBook-Air CS-461 % [K[?2004hccd Project\ 1[1m/[0m[0m [?2004l
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                            ]7;file://Joshuas-MacBook-Air.local/Users/joshuadunne/Documents/GitHub/CS-461/Project%201[0m[27m[24m[Jjoshuadunne@Joshuas-MacBook-Air Project 1 % [K[?2004hlls[?2004l
+Project 1 - Part 1.lsp	Project 1 - Part 2.lsp
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                            ]7;file://Joshuas-MacBook-Air.local/Users/joshuadunne/Documents/GitHub/CS-461/Project%201[0m[27m[24m[Jjoshuadunne@Joshuas-MacBook-Air Project 1 % [K[?2004hcclip sp Project\ 1\ -\ Part\ 1.lsp[1m [0m[0m [?2004l
+
+(CAR (REVERSE '(HE IS DEAD JIM))) 
+JIM 
+(CAR (CAR (CAR (CAR (CDR '(CAPTAIN (((JIM) KIRK)))))))) 
+JIM 
+(CAR (CDR (CAR (CAR '(((((SPOCK) ASKED) JIM) IF) HE WAS ALL RIGHT))))) 
+JIM 
+(CAR (CAR (CAR (CAR (CAR (NTHCDR 4 (CAR (CDR '(AFTER (LOOKING AT THE (LIZARD MAN) ((((JIM))) ASKED FOR WARP 9))))))))))) 
+JIM 
+(CAR (CDR (CDR (EVAL '(APPEND '(STAR (TREK)) '(JIM)))))) 
+JIM 
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                            ]7;file://Joshuas-MacBook-Air.local/Users/joshuadunne/Documents/GitHub/CS-461/Project%201[0m[27m[24m[Jjoshuadunne@Joshuas-MacBook-Air Project 1 % [K[?2004hcclisp pr  Project\ 1\ -\ Part\ 2.lsp[1m [0m[0m [?2004l
+
+"a) (d c b a)" 
+(CONS (CAR (CDR (CDR (CDR A)))) (CONS (CAR (CDR (CDR A))) (CONS (CAR (CDR A)) (CONS (CAR A) NIL)))) 
+(D C B A) 
+"b) (4 c (b 2))" 
+(CONS 4 (CONS (CAR (CDR (CDR A))) (CONS (CONS (CAR (CDR A)) (CONS (CAR (CDR B)) NIL)) NIL))) 
+(4 C (B 2)) 
+"c) ((a b c d) . 1)" 
+((A B C D) . 1) 
+(CONS (CONS (CAR A) (CONS (CAR (CDR A)) (CONS (CAR (CDR (CDR A))) (CONS (CAR (CDR (CDR (CDR A)))) NIL)))) (CAR B)) 
+"(((a c) (1 2)) . a)" 
+(CONS (CONS (CONS (CONS (CAR A) (CONS (CAR (CDR (CDR A))) NIL)) NIL) (CONS (CONS (CAR B) (CONS (CAR (CDR B)) NIL)) NIL)) (CAR A)) 
+((((A C)) (1 2)) . A) 
+"((a 1) (b 2) (c 3) (d  4))" 
+(CONS (CONS (CAR A) (CONS (CAR B) NIL))
+ (CONS (CONS (CAR (CDR A)) (CONS (CAR (CDR B)) NIL)) (CONS (CONS (CAR (CDR (CDR A))) (CONS (CAR (CDR (CDR B))) NIL)) (CONS (CONS (CAR (CDR (CDR (CDR A)))) (CONS (CAR (CDR (CDR (CDR B)))) NIL)) NIL)))) 
+((A 1) (B 2) (C 3) (D 4)) 
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                            ]7;file://Joshuas-MacBook-Air.local/Users/joshuadunne/Documents/GitHub/CS-461/Project%201[0m[27m[24m[Jjoshuadunne@Joshuas-MacBook-Air Project 1 % [K[?2004heexit[?2004l
+
+Saving session...
+...copying shared history...
+...saving history...truncating history files...
+...completed.
+
+Script done on Sun Jan 29 20:08:24 2023
