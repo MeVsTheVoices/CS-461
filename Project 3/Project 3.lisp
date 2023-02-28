@@ -10,3 +10,12 @@
 		((null l) nil)
 		((list l)
 			(or (member-any (car l) m) (member-any (cdr l) m)))))
+
+(defun find-depth (l)
+	(cond
+		((null l) 0)
+		((atom l) 0)
+		((list l)
+			(max (+ 1 (find-depth (car l))) (+ 0 (find-depth (cdr l)))))
+	)
+)
