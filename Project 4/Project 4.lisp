@@ -34,24 +34,40 @@
 (defun move_all_and_check (node accumulator)
     ;remove one level of nesting
     (setq all_nodes (mapcan (lambda (x) x) (move_all node)))
+    ;remove if less than 0
     (delete-if (lambda (x) 
             (or (< (car x) 0)
                 (< (cadr x) 0))) all_nodes)
+    ;remove if moved more than 2 total
     (delete-if (lambda (x)
             (> (+ (- (car node) (car x)) (- (cadr node) (cadr x))) 2))
             all_nodes)
     all_nodes
 )
 
-;all that changes based on the boat is that the
-;opposite side is calculated, then those values used
+(defun is_valid_state (node) 
+    (cond 
+        ((not (or (equal (caddr node) #\l) (equal (caddr node) #\r))) 
+            nil)
+        ((or (< (car node) 0) (> (car node) 3))
+            nil)
+        ((or (< (cadr node) 0) (> (cadr node) 3))
+            nil)
+        (t t)
+    )
+)
+
+;all that changes based on the boats' side is that the
+;opposite side is calculated, then those values are used
 ;to calculate the state
 (defun do_actions (node)
-    (if (equal (caddr node) #\l)
-        (princ (remove-duplicates (move_left_to_right node)))
-    )
-    (if (equal (caddr node) #\r)
-        (princ (remove-duplicates (move_left_to_right (find_opposite_bank node))))
+    (if (is_valid_state node)
+        (case (caddr node) 
+            ((#\l)
+                (move_all_and_check node ()))
+            ((#\r)
+                (move_all_and_check (find_opposite_bank node) ()))
+        )
     )
 )
 
