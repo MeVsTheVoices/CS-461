@@ -24,3 +24,34 @@
     (cartesian (range a) (range b))
 )
 
+(defun illegal-transistion (a b)
+    (cond 
+        ((> b a) t)
+        ((< (+ a b) 1) t)
+        ((> (+ a b) 2) t)
+        (t nil)
+    )
+)
+
+(defun find-transition (was is)
+    `(,(- (car was) (car is)) ,(- (cadr was) (cadr is)))
+)
+
+(defun if-is-illegal-transition (was is)
+    (let ((transition (find-transition was is)))
+        (illegal-transistion (car transition) (cadr transition))
+    )
+)
+
+(defun if-is-illegal-state (is)
+    (let (
+          (missionaries (car is))
+            (cannibals (cadr is))
+            )
+        (cond
+            ((> cannibals missionaries) t)
+            ((or (> cannibals 3) (> missionaries 3)) t)
+            ((or (< cannibals 0) (< missionaries 0)) t)
+            (t nil)
+    ))
+)
