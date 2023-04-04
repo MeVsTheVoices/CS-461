@@ -24,7 +24,7 @@
     (cartesian (range a) (range b))
 )
 
-(defun illegal-transistion (a b)
+(defun illegal-transition (a b)
     (cond 
         ((> b a) t)
         ((< (+ a b) 1) t)
@@ -39,7 +39,12 @@
 
 (defun if-is-illegal-transition (was is)
     (let ((transition (find-transition was is)))
-        (illegal-transistion (car transition) (cadr transition))
+        (cond
+            ((illegal-transition (car transition) (cadr transition))
+                t)
+            ((equal (caddr was) (caddr is))
+                t)
+        )
     )
 )
 
@@ -54,4 +59,16 @@
             ((or (< cannibals 0) (< missionaries 0)) t)
             (t nil)
     ))
+)
+
+(defun generate-cartesian-states (node tag)
+    (map 'list (lambda (x) (append x (cons tag nil))) (cartesian-ranges (car node) (cadr node)))
+)
+
+(defun generate-legal-cartesian-states (node tag)
+    (let ((generated-states (generate-cartesian-states node tag)))
+        (delete-if #'if-is-illegal-state generated-states)
+        (delete-if (lambda (x) (if-is-illegal-transition node x)) generated-states)
+
+    )
 )
