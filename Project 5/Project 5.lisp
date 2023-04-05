@@ -1,8 +1,10 @@
+;return the side opposite of that a boat is on
 (defun swap-side (node)
     (case (caddr node) 
         (#\l #\r)
         (#\r #\l) )
 )
+
 
 (defun di(m n)
     (cond
@@ -10,6 +12,7 @@
         (t (cons (list m (car n))
                  (di m (cdr n))))))
 
+;used together with di to generate every possible combination
 (defun cartesian (m n)
     (cond
         ((null m) nil)
@@ -18,6 +21,7 @@
     )
 )
 
+;does the cartesian product of 0 to n
 (defun range (n)
     (cond
         ((< n 0) nil)
@@ -26,10 +30,13 @@
     )
 )
 
+;does the cartesian product of 0 to a and 0 to b
 (defun cartesian-ranges (a b)
     (cartesian (range a) (range b))
 )
 
+;return true only if the transition is illegal
+; (missionaries, cannibals)
 (defun illegal-transition (a b)
     (cond 
         ((and (equal a 1) (equal b 1)) nil)
@@ -39,10 +46,12 @@
     )
 )
 
+;find how many people changed sides
 (defun find-transition (was is)
     `(,(abs (- (car was) (car is))) ,(abs (- (cadr was) (cadr is))))
 )
 
+;again, only allow legal transitions
 (defun if-is-illegal-transition (was is)
     (let ((transition (find-transition was is)))
         (cond
@@ -56,6 +65,7 @@
     )
 )
 
+;check states to confirm nobody gets eaten
 (defun if-is-illegal-state (is)
     (let (
           (missionaries (car is))
@@ -73,11 +83,15 @@
     ))
 )
 
+;generate all possible states from a given state
+;change the side of the boat to tag
 (defun generate-cartesian-states (node tag)
     (map 'list (lambda (x) (append x (cons tag nil))) (cartesian-ranges (car node) (cadr node)))
 )
 
+;generate all possible states from a given state
 (defun generate-legal-cartesian-states (node)
+    ;generate possibilites for opposite side if that's where the boat is
     (if (equal (caddr node) #\r)
         (setq generated-states
                 (generate-cartesian-states 
@@ -85,10 +99,13 @@
         (setq generated-states
                 (generate-cartesian-states node (swap-side node)))
     )
+    ;because we generated the possibilities for the opposite side, we need to
+    ;flip the values back to the original side
     (if (equal (caddr node) #\r)
         (setf generated-states (map 'list (lambda (x) (list (- 3 (car x)) (- 3 (cadr x)) (caddr x))) generated-states))
         (setf generated-states generated-states)
     )
+    ;remove illegal states
     (remove-if (lambda (x)
         (let (
             (inverse (list (- 3 (car x)) (- 3 (cadr x)) (caddr x)))
@@ -107,7 +124,9 @@
     ) generated-states)
 )
 
+;find a path to the goal, hopefully
 (defun keep-trying (node goal)
+    ;call recursively until we find a path
     (let ((generated-states (generate-legal-cartesian-states node)))
 
         (print node)
@@ -119,11 +138,13 @@
                 (member `(,(car goal) ,(cadr goal), #\r) generated-states))
                 goal)
             (t (keep-trying 
+            ;attempt to sort the list so that the next node is closer to the goal
                 (reduce (lambda (x y) (closer-to x y goal)) generated-states) goal))
         )
     )
 )
 
+;attempts to minimize the distance between the current node and the goal
 (defun closer-to (could-be-a could-be-b goal)
     (let (
         (a (+ (abs (- (car goal) (car could-be-a))) (abs (- (cadr goal) (cadr could-be-a)))))
