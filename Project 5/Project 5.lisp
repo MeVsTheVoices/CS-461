@@ -85,11 +85,14 @@
         (setq generated-states
                 (generate-cartesian-states node (swap-side node)))
     )
-    (print node)
-    (print generated-states)
+    (if (equal (caddr node) #\r)
+        (setf generated-states (map 'list (lambda (x) (list (- 3 (car x)) (- 3 (cadr x)) (caddr x))) generated-states))
+        (setf generated-states generated-states)
+    )
     (remove-if (lambda (x)
         (let (
             (inverse (list (- 3 (car x)) (- 3 (cadr x)) (caddr x)))
+            (opposite-node `(,(abs (- 3 (car node))) ,(- 3 (cadr node)) ,(caddr node)))
             )
             (cond
                 ((if-is-illegal-state x) t)
@@ -97,7 +100,7 @@
                 ((if-is-illegal-transition node x) t)
                 ((and (equal
                         (car node) (car x))
-                      (equal
+                        (equal
                         (cadr node) (cadr x)) t))
             )
         )
@@ -106,15 +109,29 @@
 
 (defun keep-trying (node goal)
     (let ((generated-states (generate-legal-cartesian-states node)))
+
         (print node)
         (print generated-states)
         (cond
             ((null generated-states) nil)
             ((or
                 (member `(,(car goal) ,(cadr goal), #\l) generated-states)
-                (member `(,(car goal) ,(cadr goal), #\l) generated-states))
+                (member `(,(car goal) ,(cadr goal), #\r) generated-states))
                 goal)
-            (t (keep-trying (car generated-states) goal))
+            (t (keep-trying 
+                (reduce (lambda (x y) (closer-to x y goal)) generated-states) goal))
+        )
+    )
+)
+
+(defun closer-to (could-be-a could-be-b goal)
+    (let (
+        (a (+ (abs (- (car goal) (car could-be-a))) (abs (- (cadr goal) (cadr could-be-a)))))
+        (b (+ (abs (- (car goal) (car could-be-b))) (abs (- (cadr goal) (cadr could-be-b)))))
+        )
+        (cond
+            ((< a b) could-be-a)
+            (t could-be-b)
         )
     )
 )
