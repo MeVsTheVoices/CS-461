@@ -137,7 +137,8 @@
     )
 )
 
-
+;refractoring to two nexted functions instead of a looping function
+;here we're keeping track of where we've been and what moves we've made
 (defun depth-first-search (start goal been moves)
     (cond
         ((equal start goal) (reverse (cons start been)))
@@ -145,10 +146,16 @@
     )
 )
 
+;here we're trying to find a path to the goal
+;depth-first-search generates the possibilities and this 
+;function tries them
 (defun try-set (start goal been moves-to moves)
     (cond 
+    ;3 cases, no child, already seen the node before,
+    ;or we have a valid node and should start trying to this path
         ((null moves-to) nil)
         ((member start been :test #'equal) nil)
+        ;as per DFS we don't add anything to order the nodes
         (t (let ((child (car moves-to)))
             (if child
                 (or (depth-first-search (car moves-to)
