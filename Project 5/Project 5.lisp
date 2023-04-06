@@ -124,26 +124,6 @@
     ) generated-states)
 )
 
-;find a path to the goal, hopefully
-(defun keep-trying (node goal)
-    ;call recursively until we find a path
-    (let ((generated-states (generate-legal-cartesian-states node)))
-
-        (print node)
-        (print generated-states)
-        (cond
-            ((null generated-states) nil)
-            ((or
-                (member `(,(car goal) ,(cadr goal), #\l) generated-states)
-                (member `(,(car goal) ,(cadr goal), #\r) generated-states))
-                goal)
-            (t (keep-trying 
-            ;attempt to sort the list so that the next node is closer to the goal
-                (reduce (lambda (x y) (closer-to x y goal)) generated-states) goal))
-        )
-    )
-)
-
 ;attempts to minimize the distance between the current node and the goal
 (defun closer-to (could-be-a could-be-b goal)
     (let (
@@ -156,3 +136,24 @@
         )
     )
 )
+
+
+(defun depth-first-search (start goal been moves)
+    (cond
+        ((equal start goal) (reverse (cons start been)))
+        (t (try-set start goal been (generate-legal-cartesian-states start) moves))
+    )
+)
+
+(defun try-set (start goal been moves-to moves)
+    (cond 
+        ((null moves-to) nil)
+        ((member start been :test #'equal) nil)
+        (t (let ((child (car moves-to)))
+            (if child
+                (or (depth-first-search (car moves-to)
+                                        goal
+                                        (cons start been)
+                                        moves)
+                    (try-set start goal been (cdr moves-to) moves))
+                (try-set start goal been (cdr moves-to) moves))))))
