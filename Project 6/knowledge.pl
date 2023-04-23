@@ -35,3 +35,9 @@ sibling_of(X, Y) :- parent_of(Z, X), parent_of(Z, Y), X \= Y.
 
 brother_of(X, Y) :- sibling_of(X, Y), male(X).
 sister_of(X, Y) :- sibling_of(X, Y), female(X).
+
+grandparent_of(X, Y) :- parent_of(X, Z), parent_of(Z, Y).
+
+ancestor(X, Y) :- parent_of(X, Y).
+ancestor(X, Y) :- parent_of(X, Z), ancestor(Z, Y).
+    
