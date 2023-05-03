@@ -23,7 +23,7 @@ parent_of(john, stephen).
 parent_of(helen, joshua).
 parent_of(stephen, joshua).
 parent_of(mary, liam).
-parent_of(stephen, liam).
+parent_of(john, liam).
 parent_of(doreen, made_up_helen_sister).
 parent_of(colin, made_up_helen_sister).
 
@@ -39,8 +39,8 @@ married_to(helen_2, liam).
 father_of(X, Y) :- parent_of(X, Y), male(X).
 mother_of(X, Y) :- parent_of(X, Y), female(X).
 
-son_of(X, Y) :- father_of(Y, X).
-daughter_of(X, Y) :- mother_of(Y, X).
+son_of(X, Y) :- father_of(Y, X), male(X) ; mother_of(Y, X), male(X).
+daughter_of(X, Y) :- mother_of(Y, X), female(X) ; father_of(Y, X), female(X).
 
 sibling_of(X, Y) :- parent_of(Z, X), parent_of(Z, Y), X \= Y.
 
@@ -57,8 +57,8 @@ aunt_of(X, Y) :- sister_of(X, Z), parent_of(Z, Y) ; married_to(X, Z), brother_of
 
 cousin_of(X, Y) :- parent_of(Z, X), parent_of(W, Y), sibling_of(Z, W).
 
-brother_in_law_of(X, Y) :- married_to(X, Z), brother_of(Z, Y).
-sister_in_law_of(X, Y) :- married_to(X, Z), sister_of(Z, Y).
+brother_in_law_of(X, Y) :- married_to(X, Z), sister_of(Z, Y).
+sister_in_law_of(X, Y) :- married_to(X, Z), brother_of(Z, Y).
 
-father_in_law_of(X, Y) :- father_of(X, Z), married_to(Z, Y) ; mother_of(X, Z), married_to(Z, Y).
-mother_in_law_of(X, Y) :- father_of(X, Z), married_to(Y, Z) ; mother_of(X, Z), married_to(Y, Z).
+father_in_law_of(X, Y) :- father_of(X, Z), married_to(Z, Y).
+mother_in_law_of(X, Y) :- mother_of(X, Z), married_to(Y, Z).
